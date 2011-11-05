@@ -1,0 +1,28 @@
+<package>
+  <description brief="head_tracking">
+
+     head_tracking
+
+  </description>
+  <author>billy</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/head_tracking</url>
+  <depend package="pcl"/>
+  <depend package="pcl_ros"/>
+  <depend package="cv_bridge"/>
+  <depend package="opencv2"/>
+  <depend package="image_transport"/>
+  <depend package="roscpp"/>
+  <depend package="sensor_msgs"/>
+  <depend package="rospy"/>
+  <depend package="std_msgs"/>
+  <depend package="geometry_msgs"/>
+  <depend package="tf"/>
+  <depend package="rviz"/>
+  <depend package="robot_state_publisher"/>
+  <depend package="joint_state_publisher"/>
+
+</package>
+
+

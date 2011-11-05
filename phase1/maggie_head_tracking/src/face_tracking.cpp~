@@ -1,0 +1,7 @@
+#include "face_tracking.h"
+
+void face_tracking::face_tracking ()
+{
+}
+
+

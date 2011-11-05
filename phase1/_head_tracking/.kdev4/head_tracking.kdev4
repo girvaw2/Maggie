@@ -1,0 +1,11 @@
+[Buildset]
+BuildItems=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x01\x00\x00\x00\x0b\x00\x00\x00\x00\x01\x00\x00\x00\x1a\x00h\x00e\x00a\x00d\x00_\x00t\x00r\x00a\x00c\x00k\x00i\x00n\x00g)
+
+[CMake]
+BuildDirs=/home/billy/ros/maggie/phase1/head_tracking/build
+CMakeDir=/usr/share/cmake-2.8/Modules
+Current CMake Binary=file:///usr/bin/cmake
+CurrentBuildDir=file:///home/billy/ros/maggie/phase1/head_tracking/build
+CurrentBuildType=Debug
+CurrentInstallDir=
+ProjectRootRelative=./

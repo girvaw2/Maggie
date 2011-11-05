@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/568/trunk/pi_tutorials/pi_head_tracking_3d_part1/launch
+END
+point_head.launch
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/!svn/ver/568/trunk/pi_tutorials/pi_head_tracking_3d_part1/launch/point_head.launch
+END
+dynamixels.launch
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/!svn/ver/566/trunk/pi_tutorials/pi_head_tracking_3d_part1/launch/dynamixels.launch
+END
+test_urdf.launch
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/!svn/ver/469/trunk/pi_tutorials/pi_head_tracking_3d_part1/launch/test_urdf.launch
+END

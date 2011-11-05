@@ -1,0 +1,8 @@
+<launch>
+	<arg name="dynamixel_namespace" value="dynamixel_controller" />
+
+	<include file="$(find head_tracking)/launch/ax12.launch" />
+
+    <!-- Start the point_head node -->
+    <node name="point_head_node" pkg="head_tracking" type="point_head.py" output="screen" />
+</launch>

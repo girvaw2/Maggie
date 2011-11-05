@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/568/trunk/pi_tutorials/pi_head_tracking_3d_part1/bin
+END
+point_head.py
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/!svn/ver/568/trunk/pi_tutorials/pi_head_tracking_3d_part1/bin/point_head.py
+END
+dynamixel_joint_state_publisher.py
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/!svn/ver/566/trunk/pi_tutorials/pi_head_tracking_3d_part1/bin/dynamixel_joint_state_publisher.py
+END
+relax_all_servos.py
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/!svn/ver/567/trunk/pi_tutorials/pi_head_tracking_3d_part1/bin/relax_all_servos.py
+END
+head_pointer_gui.py
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/!svn/ver/566/trunk/pi_tutorials/pi_head_tracking_3d_part1/bin/head_pointer_gui.py
+END

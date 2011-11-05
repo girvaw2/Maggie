@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/!svn/ver/469/trunk/pi_tutorials/pi_head_tracking_3d_part1/urdf
+END
+pi_robot.urdf.xacro
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/!svn/ver/469/trunk/pi_tutorials/pi_head_tracking_3d_part1/urdf/pi_robot.urdf.xacro
+END
+kinectbot.urdf.xacro
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/!svn/ver/469/trunk/pi_tutorials/pi_head_tracking_3d_part1/urdf/kinectbot.urdf.xacro
+END

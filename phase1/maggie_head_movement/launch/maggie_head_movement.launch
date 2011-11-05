@@ -1,0 +1,9 @@
+<launch>
+
+<include file="$(find maggie_head_movement)/launch/dynamixels.launch"/>
+
+<include file="$(find maggie_head_movement)/launch/point_head.launch"/>
+
+</launch>
+
+
