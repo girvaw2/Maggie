@@ -19,7 +19,7 @@
   <depend package="dynamixel_driver"/>
   <depend package="dynamixel_controllers"/>
   <depend package="dynamixel_msgs"/>
-
+  <rosdp name="wxpython"/>
 </package>
 
 

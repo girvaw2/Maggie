@@ -32,7 +32,7 @@
 # Based on the wubble_head_action.py script by Anh Tran. Modifications made by Patrick Goebel
 # for the Pi Robot Project.
 
-import roslib; roslib.load_manifest('pi_head_tracking_3d_part1')
+import roslib; roslib.load_manifest('maggie_head_movement')
 import rospy
 import tf
 from geometry_msgs.msg import PointStamped

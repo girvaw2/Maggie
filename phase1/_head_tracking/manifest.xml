@@ -4,7 +4,7 @@
      head_tracking
 
   </description>
-  <author>Billy</author>
+  <author>billy</author>
   <license>BSD</license>
   <review status="unreviewed" notes=""/>
   <url>http://ros.org/wiki/head_tracking</url>
@@ -22,8 +22,7 @@
   <depend package="rviz"/>
   <depend package="robot_state_publisher"/>
   <depend package="joint_state_publisher"/>
-  <depend package="ax12_controller_core"/>
-  <rosdep name="wxpython"/>
+
 </package>
 
 

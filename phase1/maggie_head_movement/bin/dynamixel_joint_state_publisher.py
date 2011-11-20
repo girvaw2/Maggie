@@ -21,7 +21,7 @@
     http://www.gnu.org/licenses/gpl.html
 """
 
-import roslib; roslib.load_manifest('pi_head_tracking_3d_part1')
+import roslib; roslib.load_manifest('maggie_head_movement')
 import rospy
 
 from sensor_msgs.msg import JointState as JointStatePR2

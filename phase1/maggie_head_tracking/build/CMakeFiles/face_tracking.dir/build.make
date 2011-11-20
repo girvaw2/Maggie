@@ -99,7 +99,6 @@ CMakeFiles/face_tracking.dir/src/face_tracking.o: /opt/ros/electric/stacks/geome
 CMakeFiles/face_tracking.dir/src/face_tracking.o: /opt/ros/electric/stacks/perception_pcl/pcl_ros/manifest.xml
 CMakeFiles/face_tracking.dir/src/face_tracking.o: /opt/ros/electric/stacks/vision_opencv/opencv2/manifest.xml
 CMakeFiles/face_tracking.dir/src/face_tracking.o: /opt/ros/electric/stacks/vision_opencv/cv_bridge/manifest.xml
-CMakeFiles/face_tracking.dir/src/face_tracking.o: /opt/ros/electric/stacks/image_common/image_transport/manifest.xml
 CMakeFiles/face_tracking.dir/src/face_tracking.o: /opt/ros/electric/stacks/common_rosdeps/manifest.xml
 CMakeFiles/face_tracking.dir/src/face_tracking.o: /opt/ros/electric/stacks/visualization_common/ogre/manifest.xml
 CMakeFiles/face_tracking.dir/src/face_tracking.o: /opt/ros/electric/stacks/rx/wxswig/manifest.xml
@@ -118,6 +117,7 @@ CMakeFiles/face_tracking.dir/src/face_tracking.o: /opt/ros/electric/stacks/robot
 CMakeFiles/face_tracking.dir/src/face_tracking.o: /opt/ros/electric/stacks/robot_model/collada_parser/manifest.xml
 CMakeFiles/face_tracking.dir/src/face_tracking.o: /opt/ros/electric/stacks/robot_model/urdf/manifest.xml
 CMakeFiles/face_tracking.dir/src/face_tracking.o: /opt/ros/electric/stacks/robot_model/resource_retriever/manifest.xml
+CMakeFiles/face_tracking.dir/src/face_tracking.o: /opt/ros/electric/stacks/image_common/image_transport/manifest.xml
 CMakeFiles/face_tracking.dir/src/face_tracking.o: /opt/ros/electric/stacks/visualization/interactive_markers/manifest.xml
 CMakeFiles/face_tracking.dir/src/face_tracking.o: /opt/ros/electric/stacks/visualization/rviz/manifest.xml
 CMakeFiles/face_tracking.dir/src/face_tracking.o: /opt/ros/electric/stacks/orocos_kinematics_dynamics/orocos_kdl/manifest.xml

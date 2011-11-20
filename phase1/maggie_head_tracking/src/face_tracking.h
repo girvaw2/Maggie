@@ -1,8 +1,24 @@
+#include <stdio.h>
+#include "cv.h"
+#include "highgui.h"
+#include <opencv2/core/types_c.h>
+#include <ros/ros.h>
+#include <sensor_msgs/Image.h>
+#include <cv_bridge/cv_bridge.h>
+#include <sensor_msgs/image_encodings.h>
+
+namespace enc = sensor_msgs::image_encodings;
+
 class face_tracking
 {
 public:
   face_tracking();
+  ~face_tracking();
+  void detectFaces( sensor_msgs::Image image_in );
+
 private:
+  CvHaarClassifierCascade *cascade;
+  CvMemStorage            *storage;
 };
 
 
