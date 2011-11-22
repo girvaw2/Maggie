@@ -1,4 +1,4 @@
-dynamixels: ['head_pan', 'head_tilt']
+dynamixels: ['head_pan_joint', 'head_tilt_joint']
 
 head_pan_controller:
     controller:
@@ -6,7 +6,7 @@ head_pan_controller:
         module: joint_position_controller
         type: JointPositionController
     joint_name: head_pan_joint
-    joint_speed: 3
+    joint_speed: 0.2 
     motor:
         id: 1
         init: 512
@@ -19,7 +19,7 @@ head_tilt_controller:
         module: joint_position_controller
         type: JointPositionController
     joint_name: head_tilt_joint
-    joint_speed: 2.0
+    joint_speed: 0.1 
     motor:
         id: 2
         init: 512

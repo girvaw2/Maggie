@@ -20,6 +20,8 @@
  
  #define FOV_WIDTH 	1.094
  #define FOV_HEIGHT 	1.094
+ 
+ #define DEBUG_		0
 
  using namespace std;
  using namespace cv;
@@ -29,7 +31,7 @@ class HeadTracking
 {
 public:
   
-  void detectAndDisplay( cv_bridge::CvImagePtr cv_ptr )
+  void detectFace( cv_bridge::CvImagePtr cv_ptr )
   {
     std::vector<Rect> faces;
     
@@ -45,7 +47,7 @@ public:
     };
   
     //-- Detect faces
-    face_cascade.detectMultiScale( frame_gray, faces, 1.1, 2, 0|CV_HAAR_FIND_BIGGEST_OBJECT, Size(10, 0) );
+    face_cascade.detectMultiScale( frame_gray, faces, 1.1, 2, 0|CV_HAAR_SCALE_IMAGE, Size(30, 30) );
     
     for( uint i = 0; i < faces.size(); i++ )
     {
@@ -56,8 +58,16 @@ public:
 	 * For the moment, we're only interested in the first face that we pick up.
 	 */ 
 	faceCentre_ = Point( faces[i].x + faces[i].width*0.5, faces[i].y + faces[i].height*0.5 );
-     }
-    }
+	
+	if (DEBUG_)
+	{
+	  ellipse( frame, faceCentre_, Size( faces[i].width*0.5, faces[i].height*0.5), 0, 0, 360, Scalar( 255, 0, 255 ), 4, 8, 0 );
+	  image_pub_.publish(cv_ptr->toImageMsg());
+	}
+	return;
+      }
+    } 
+    faceCentre_ = (Point)0;
   }
 
   void
@@ -76,7 +86,7 @@ public:
       return;
     }
      
-    detectAndDisplay(cv_ptr);
+    detectFace(cv_ptr);
   }
 
   void
@@ -93,21 +103,25 @@ public:
       return;
     }
     
-    float z = cv_ptr->image.at<float>(faceCentre_);
-    if (isnan<float>(z) == false)
+    if (faceCentre_ != (Point)0)
     {
-       /*
-       * We've got everything we need, so publish the faceCentre 3d coordinate to the target frame
-       */
-      geometry_msgs::PointStamped point_out;          
-      point_out.header.frame_id = "camera_depth_optical_frame"; 
-      point_out.point.x = z * FOV_WIDTH * (faceCentre_.x - cv_ptr->image.size().width / 2.0) / cv_ptr->image.size().width;
-      point_out.point.y = (z * FOV_HEIGHT * (faceCentre_.y - cv_ptr->image.size().height / 2.0) / cv_ptr->image.size().height) + 0.12;
-      point_out.point.z = cv_ptr->image.at<float>(faceCentre_);
-      
-      std::cout << "COG_X = " << point_out.point.x << " y = " << point_out.point.y << " z = " << point_out.point.z << std::endl;
-      
-      target_pub_.publish<geometry_msgs::PointStamped>(point_out);
+      float z = cv_ptr->image.at<float>(faceCentre_);
+      if (isnan<float>(z) == false)
+      {
+	/*
+	* We've got everything we need, so publish the faceCentre 3d coordinate to the target frame
+	*/
+	geometry_msgs::PointStamped point_out;          
+	point_out.header.frame_id = "camera_depth_optical_frame"; 
+	point_out.point.x = z * FOV_WIDTH * (faceCentre_.x - cv_ptr->image.size().width / 2.0) / cv_ptr->image.size().width;
+	point_out.point.y = (z * FOV_HEIGHT * (faceCentre_.y - cv_ptr->image.size().height / 2.0) / cv_ptr->image.size().height) + 0.12;
+	point_out.point.z = cv_ptr->image.at<float>(faceCentre_);
+	
+	if (DEBUG_)
+	  std::cout << "COG_X = " << point_out.point.x << " y = " << point_out.point.y << " z = " << point_out.point.z << std::endl;
+	
+	target_pub_.publish<geometry_msgs::PointStamped>(point_out); 
+      }
     }
   }
   
@@ -115,10 +129,14 @@ public:
   {
     face_cascade_name = "/usr/share/OpenCV-2.3.1/haarcascades/haarcascade_frontalface_alt.xml";
     
-    image_sub_ = nh_.subscribe (image_topic_, 1, &HeadTracking::image_cb, this);
-    depth_sub_ = nh_.subscribe (depth_topic_, 1, &HeadTracking::depth_cb, this);
+    image_sub_ = nh_.subscribe (image_topic_, 2, &HeadTracking::image_cb, this);
+    depth_sub_ = nh_.subscribe (depth_topic_, 2, &HeadTracking::depth_cb, this);
     
     target_pub_ = nh_.advertise<geometry_msgs::PointStamped> ("target_point", 5);
+    
+    // This is only for debugging purposes, so can be commented-out
+    if (DEBUG_)
+      image_pub_ = nh_.advertise<sensor_msgs::Image> ("output", 30);
     
     //print some info about the node
     std::string r_ct = nh_.resolveName (depth_topic_);
