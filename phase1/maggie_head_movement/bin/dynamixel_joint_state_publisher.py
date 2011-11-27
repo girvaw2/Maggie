@@ -38,30 +38,21 @@ class JointStatePublisher():
     def __init__(self):
         rospy.init_node('dynamixel_joint_state_publisher', anonymous=True)
         
-        dynamixel_namespace = rospy.get_namespace()
-
-        rate = rospy.get_param('~rate', 10)
+        rate = rospy.get_param('~rate', 20)
         r = rospy.Rate(rate)
         
+        dynamixels = rospy.get_param('dynamixels', '')
+        
         self.joints = list()
-        
-        # Get all parameter names
-        parameters = rospy.get_param_names()
-        
-        for parameter in parameters:
-            # Look for the parameters that name the joints.
-            if parameter.find(dynamixel_namespace) != -1 and parameter.find("joint_name") != -1:
-                self.joints.append(rospy.get_param(parameter))
-                        
+                                                
         self.servos = list()
         self.controllers = list()
         self.joint_states = dict({})
         
-        for joint in self.joints:
-            # Remove "_joint" from the end of the joint name to get the controller names.
-            servo = joint.split("_joint")[0]
+        for joint in sorted(dynamixels):
+            controller = joint.replace("_joint", "") + "_controller"
             self.joint_states[joint] = JointStateMessage(joint, 0.0, 0.0, 0.0)
-            self.controllers.append(dynamixel_namespace + servo + "_controller")
+            self.controllers.append(controller)
                            
         # Start controller state subscribers
         [rospy.Subscriber(c + '/state', JointStateDynamixel, self.controller_state_handler) for c in self.controllers]

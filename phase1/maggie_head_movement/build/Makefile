@@ -161,6 +161,19 @@ clean-test-results/fast:
 .PHONY : clean-test-results/fast
 
 #=============================================================================
+# Target rules for targets named head_test
+
+# Build rule for target.
+head_test: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 head_test
+.PHONY : head_test
+
+# fast build rule for target.
+head_test/fast:
+	$(MAKE) -f CMakeFiles/head_test.dir/build.make CMakeFiles/head_test.dir/build
+.PHONY : head_test/fast
+
+#=============================================================================
 # Target rules for targets named rosbuild_precompile
 
 # Build rule for target.
@@ -290,6 +303,21 @@ tests/fast:
 	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/build
 .PHONY : tests/fast
 
+# target to build an object file
+src/head_test.o:
+	$(MAKE) -f CMakeFiles/head_test.dir/build.make CMakeFiles/head_test.dir/src/head_test.o
+.PHONY : src/head_test.o
+
+# target to preprocess a source file
+src/head_test.i:
+	$(MAKE) -f CMakeFiles/head_test.dir/build.make CMakeFiles/head_test.dir/src/head_test.i
+.PHONY : src/head_test.i
+
+# target to generate assembly for a file
+src/head_test.s:
+	$(MAKE) -f CMakeFiles/head_test.dir/build.make CMakeFiles/head_test.dir/src/head_test.s
+.PHONY : src/head_test.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -302,6 +330,7 @@ help:
 	@echo "... ROSBUILD_gensrv_lisp"
 	@echo "... clean-test-results"
 	@echo "... edit_cache"
+	@echo "... head_test"
 	@echo "... rebuild_cache"
 	@echo "... rosbuild_precompile"
 	@echo "... rosbuild_premsgsrvgen"
@@ -313,6 +342,9 @@ help:
 	@echo "... test-results"
 	@echo "... test-results-run"
 	@echo "... tests"
+	@echo "... src/head_test.o"
+	@echo "... src/head_test.i"
+	@echo "... src/head_test.s"
 .PHONY : help
 
 

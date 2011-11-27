@@ -52,7 +52,7 @@ public:
     for( uint i = 0; i < faces.size(); i++ )
     {
       
-      if (i == 0)
+      if (i < 3)
       {
 	/* 
 	 * For the moment, we're only interested in the first face that we pick up.

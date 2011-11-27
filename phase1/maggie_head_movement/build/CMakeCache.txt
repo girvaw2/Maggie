@@ -182,6 +182,9 @@ TOOLCHAINCONFIG:FILEPATH=TOOLCHAINCONFIG-NOTFOUND
 //Path to a file.
 USERCONFIG:FILEPATH=USERCONFIG-NOTFOUND
 
+//Path to a file.
+_file_name:FILEPATH=/home/billy/ros/Maggie/phase1/maggie_head_movement/src/head_test.cpp
+
 //Value Computed by CMake
 maggie_head_movement_BINARY_DIR:STATIC=/home/billy/ros/Maggie/phase1/maggie_head_movement/build
 

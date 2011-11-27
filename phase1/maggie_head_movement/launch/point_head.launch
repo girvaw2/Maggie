@@ -1,6 +1,9 @@
 <launch>
-	<!-- Set the same namespace as used with the ax12 controllers -->
-	<arg name="dynamixel_namespace" value="dynamixel_controller" />
+    <!-- Set the same namespace as used with the ax12 controllers -->
+    <arg name="dynamixel_namespace" value="dynamixel_controller" />
+
+    <!-- Start the point_head node -->
+    <node ns="$(arg dynamixel_namespace)" name="dynamixel_joint_state_publisher" pkg="maggie_head_movement" type="dynamixel_joint_state_publisher.py" output="screen" />
 
     <!-- Start the point_head node -->
     <node ns="$(arg dynamixel_namespace)" name="point_head_node" pkg="maggie_head_movement" type="point_head.py" output="screen" />

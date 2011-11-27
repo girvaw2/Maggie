@@ -3,6 +3,7 @@
 /home/billy/ros/Maggie/phase1/maggie_head_movement/build/CMakeFiles/ROSBUILD_gensrv_cpp.dir
 /home/billy/ros/Maggie/phase1/maggie_head_movement/build/CMakeFiles/ROSBUILD_gensrv_lisp.dir
 /home/billy/ros/Maggie/phase1/maggie_head_movement/build/CMakeFiles/clean-test-results.dir
+/home/billy/ros/Maggie/phase1/maggie_head_movement/build/CMakeFiles/head_test.dir
 /home/billy/ros/Maggie/phase1/maggie_head_movement/build/CMakeFiles/rosbuild_precompile.dir
 /home/billy/ros/Maggie/phase1/maggie_head_movement/build/CMakeFiles/rosbuild_premsgsrvgen.dir
 /home/billy/ros/Maggie/phase1/maggie_head_movement/build/CMakeFiles/rospack_genmsg.dir

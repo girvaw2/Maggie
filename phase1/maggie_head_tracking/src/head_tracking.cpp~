@@ -21,7 +21,7 @@
  #define FOV_WIDTH 	1.094
  #define FOV_HEIGHT 	1.094
  
- #define DEBUG_		0
+ #define DEBUG_		1
 
  using namespace std;
  using namespace cv;
@@ -52,7 +52,7 @@ public:
     for( uint i = 0; i < faces.size(); i++ )
     {
       
-      if (i == 0)
+      if (i < 3)
       {
 	/* 
 	 * For the moment, we're only interested in the first face that we pick up.
@@ -120,7 +120,7 @@ public:
 	if (DEBUG_)
 	  std::cout << "COG_X = " << point_out.point.x << " y = " << point_out.point.y << " z = " << point_out.point.z << std::endl;
 	
-	target_pub_.publish<geometry_msgs::PointStamped>(point_out); 
+	//target_pub_.publish<geometry_msgs::PointStamped>(point_out); 
       }
     }
   }
