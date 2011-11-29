@@ -40,6 +40,8 @@ from std_msgs.msg import Float64
 
 import math
 
+ZERO_SPEED = 0.0001
+
 class PointHeadNode():
 
     def __init__(self):
@@ -47,38 +49,15 @@ class PointHeadNode():
         rospy.init_node('point_head_node', anonymous=True)
         
         dynamixel_namespace = rospy.get_namespace()
-        rate = rospy.get_param('~rate', 10)
+        rate = rospy.get_param('~rate', 20)
         r = rospy.Rate(rate)
         
         #---------------------------------
-        
-	self.camera_link = 'camera_link'
-        self.head_pan_joint = 'head_pan_joint'
-        self.head_tilt_joint = 'head_tilt_joint'
+
         self.head_pan_link = 'head_pan_link'
         self.head_tilt_link = 'head_tilt_link'
         
 	self.dynamixels = rospy.get_param('dynamixels', '')
-        
-        """ The pan/tilt thresholds indicate how far (in meters) the ROI needs to be off-center
-            before we make a movement. """
-        self.pan_threshold = int(rospy.get_param('~pan_threshold', 0.01))
-        self.tilt_threshold = int(rospy.get_param('~tilt_threshold', 0.01))
-        
-        """ The k_pan and k_tilt parameter determine how responsive the servo movements are.
-            If these are set too high, oscillation can result. """
-        self.k_pan = rospy.get_param('~k_pan', 1.5)
-        self.k_tilt = rospy.get_param('~k_tilt', 1.5)
-        
-        """ Set limits on how far we can pan or tilt """
-        self.max_pan = rospy.get_param('~max_pan', 3)
-        self.min_pan = rospy.get_param('~min_pan', -3)
-        self.max_tilt = rospy.get_param('~max_tilt', 1.7)
-        self.min_tilt = rospy.get_param('~min_tilt', -1.7)
-        
-        self.servo_speed = dict()
-        self.servo_position = dict()
-        self.torque_enable = dict()
         
         #---------------------------------
         
@@ -129,71 +108,6 @@ class PointHeadNode():
         
     def update_target_point(self, msg):
         self.target_point = msg
-        
-    def update_head_position(self, target):
-        """ When OpenCV loses the ROI, the message stops updating.  Use this counter to
-            determine when it stops. """
-        self.tracking_seq += 1
-        
-        """ Project the target point onto the camera link.
-            In case of tf exceptions, simply return without an update. """
-        try:         
-            self.tf.waitForTransform(self.camera_link, target.header.frame_id, rospy.Time.now(), rospy.Duration(1.0))
-            camera_target = self.tf.transformPoint(self.camera_link, target)
-        except (tf.Exception, tf.ConnectivityException, tf.LookupException):
-            return
-        
-        """ The virtual camera image is in the y-z plane """
-        pan = -camera_target.point.y
-        tilt = -camera_target.point.z
-        
-        """ Compute the distance to the target in the x direction """
-        distance = float(abs(camera_target.point.x))
-        
-        """ Convert the pan and tilt values from meters to radians by dividing by the distance to the target.  Since the Kinect is 
-            blind to distance within 0.5 meters, check for an exception and use 0.5 meters as a fall back. """
-        try:
-            pan /= distance
-            tilt /= distance
-        except:
-            pan /= 0.5
-            tilt /= 0.5
-                      
-        """ Pan the camera only if the displacement of the target point exceeds the threshold """
-        if abs(pan) > self.pan_threshold:
-            """ Set the pan speed proportion to the horizontal displacement of the target """
-            self.pan_speed = trunc(min(self.max_joint_speed, max(ZERO_SPEED, self.k_pan * abs(pan))), 2)
-               
-            """ Set the target position ahead or behind the current position """
-            try:
-                current_pan = self.joint_state.position[self.joint_state.name.index(self.head_pan_joint)]
-            except:
-                return
-            if pan > 0:
-                self.pan_position = max(self.min_pan, current_pan - self.lead_target_angle)
-            else:
-                self.pan_position = min(self.max_pan, current_pan + self.lead_target_angle)
-        else:
-            self.pan_speed = ZERO_SPEED
-        
-        """ Tilt the camera only if the displacement of the target point exceeds the threshold """
-        if abs(tilt) > self.tilt_threshold:
-            """ Set the pan speed proportion to the vertical displacement of the target """
-            self.tilt_speed = trunc(min(self.max_joint_speed, max(ZERO_SPEED, self.k_tilt * abs(tilt))), 2)
-            
-            """ Set the target position ahead or behind the current position """
-            try:
-                current_tilt = self.joint_state.position[self.joint_state.name.index(self.head_tilt_joint)]
-            except:
-                return
-            if tilt < 0:
-                self.tilt_position = max(self.min_tilt, current_tilt - self.lead_target_angle)
-            else:
-                self.tilt_position = min(self.max_tilt, current_tilt + self.lead_target_angle)
-
-        else:
-            self.tilt_speed = ZERO_SPEED    
-        
 
     def center_head(self):
         self.head_pan_pub.publish(0.0)

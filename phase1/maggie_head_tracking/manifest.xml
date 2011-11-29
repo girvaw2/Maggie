@@ -18,6 +18,7 @@
   <depend package="rospy"/>
   <depend package="std_msgs"/>
   <depend package="geometry_msgs"/>
+  <depend package="dynamixel_controllers"/>
   <depend package="tf"/>
   <depend package="rviz"/>
   <depend package="robot_state_publisher"/>

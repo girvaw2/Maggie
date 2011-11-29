@@ -10,6 +10,7 @@ CMakeFiles/head_tracking.dir/src/head_tracking.o
  /opt/ros/electric/stacks/common_msgs/sensor_msgs/msg_gen/cpp/include/sensor_msgs/PointCloud2.h
  /opt/ros/electric/stacks/common_msgs/sensor_msgs/msg_gen/cpp/include/sensor_msgs/PointField.h
  /opt/ros/electric/stacks/common_msgs/sensor_msgs/msg_gen/cpp/include/sensor_msgs/RegionOfInterest.h
+ /opt/ros/electric/stacks/dynamixel_motor/dynamixel_controllers/srv_gen/cpp/include/dynamixel_controllers/SetSpeed.h
  /opt/ros/electric/stacks/perception_pcl/pcl/include/pcl-1.1/pcl/common/concatenate.h
  /opt/ros/electric/stacks/perception_pcl/pcl/include/pcl-1.1/pcl/console/print.h
  /opt/ros/electric/stacks/perception_pcl/pcl/include/pcl-1.1/pcl/exceptions.h

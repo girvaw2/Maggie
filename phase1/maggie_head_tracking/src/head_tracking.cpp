@@ -1,31 +1,30 @@
 #include <ros/ros.h>
 
 #include <sensor_msgs/Image.h>
-
 #include <pcl/io/pcd_io.h>
-
 #include <string>
+#include "opencv2/objdetect/objdetect.hpp"
+#include "opencv2/highgui/highgui.hpp"
+#include "opencv2/imgproc/imgproc.hpp"
+#include <cv_bridge/cv_bridge.h>
+#include <sensor_msgs/image_encodings.h>
+#include <sensor_msgs/RegionOfInterest.h>
+#include <cv_bridge/CvBridge.h>
+#include "geometry_msgs/PointStamped.h"
+#include "dynamixel_controllers/SetSpeed.h"
 
- #include "opencv2/objdetect/objdetect.hpp"
- #include "opencv2/highgui/highgui.hpp"
- #include "opencv2/imgproc/imgproc.hpp"
- #include <cv_bridge/cv_bridge.h>
- #include <sensor_msgs/image_encodings.h>
- #include <sensor_msgs/RegionOfInterest.h>
- #include <cv_bridge/CvBridge.h>
- #include "geometry_msgs/PointStamped.h"
 
- #include <iostream>
- #include <stdio.h>
- 
- #define FOV_WIDTH 	1.094
- #define FOV_HEIGHT 	1.094
- 
- #define DEBUG_		0
+#include <iostream>
+#include <stdio.h>
 
- using namespace std;
- using namespace cv;
- namespace enc = sensor_msgs::image_encodings;
+#define FOV_WIDTH 	1.094
+#define FOV_HEIGHT 	1.094
+
+#define DEBUG_		0
+
+using namespace std;
+using namespace cv;
+namespace enc = sensor_msgs::image_encodings;
 
 class HeadTracking
 {
@@ -52,7 +51,7 @@ public:
     for( uint i = 0; i < faces.size(); i++ )
     {
       
-      if (i < 3)
+      if (i == 0)
       {
 	/* 
 	 * For the moment, we're only interested in the first face that we pick up.
@@ -68,6 +67,65 @@ public:
       }
     } 
     faceCentre_ = (Point)0;
+  }
+  
+  void trackFace(cv_bridge::CvImagePtr cv_ptr)
+  {
+    static Point lastFaceCentre = (Point)0;
+    
+    float z = cv_ptr->image.at<float>(faceCentre_);
+    if (isnan<float>(z) == false)
+    {
+      if (lastFaceCentre != (Point)0)
+      {
+	float deltaX = abs(lastFaceCentre.x - faceCentre_.x);
+	float deltaY = abs(lastFaceCentre.y - faceCentre_.y);
+	
+	if (DEBUG_)
+	{
+	  std::cout << "deltaX = " << deltaX << " deltaY = " << deltaY << std::endl;
+	}
+
+	SetPanSpeed(min<float>(max<float>(deltaX / 100, 0.05), 1));
+	SetTiltSpeed(min<float>(max<float>(deltaY / 200, 0.01), 0.3));
+      }
+      
+      /*
+      * We've got everything we need, so publish the faceCentre 3d coordinate to the target frame
+      */
+      geometry_msgs::PointStamped point_out;          
+      point_out.header.frame_id = "camera_depth_optical_frame"; 
+      point_out.point.x = z * FOV_WIDTH * (faceCentre_.x - cv_ptr->image.size().width / 2.0) / cv_ptr->image.size().width;
+      point_out.point.y = (z * FOV_HEIGHT * (faceCentre_.y - cv_ptr->image.size().height / 2.0) / cv_ptr->image.size().height) + 0.12;
+      point_out.point.z = cv_ptr->image.at<float>(faceCentre_);
+      
+      if (DEBUG_)
+	std::cout << "COG_X = " << point_out.point.x << " y = " << point_out.point.y << " z = " << point_out.point.z << std::endl;
+      
+      target_pub_.publish<geometry_msgs::PointStamped>(point_out); 
+      
+      memcpy(&lastFaceCentre, &faceCentre_, sizeof(Point)); 
+    }
+  }
+  
+  void
+  SetPanSpeed (float speed)
+  {
+    speed_srv_.request.speed = speed;
+    if (!pan_speed_client_.call(speed_srv_))
+    {
+      std::cout << "Failed to set pan speed: " << speed << std::endl;
+    }
+  }
+
+  void
+  SetTiltSpeed (float speed)
+  {
+    speed_srv_.request.speed = speed;
+    if (!tilt_speed_client_.call(speed_srv_))
+    {
+      std::cout << "Failed to set tilt speed: " << speed << std::endl;
+    }
   }
 
   void
@@ -105,23 +163,7 @@ public:
     
     if (faceCentre_ != (Point)0)
     {
-      float z = cv_ptr->image.at<float>(faceCentre_);
-      if (isnan<float>(z) == false)
-      {
-	/*
-	* We've got everything we need, so publish the faceCentre 3d coordinate to the target frame
-	*/
-	geometry_msgs::PointStamped point_out;          
-	point_out.header.frame_id = "camera_depth_optical_frame"; 
-	point_out.point.x = z * FOV_WIDTH * (faceCentre_.x - cv_ptr->image.size().width / 2.0) / cv_ptr->image.size().width;
-	point_out.point.y = (z * FOV_HEIGHT * (faceCentre_.y - cv_ptr->image.size().height / 2.0) / cv_ptr->image.size().height) + 0.12;
-	point_out.point.z = cv_ptr->image.at<float>(faceCentre_);
-	
-	if (DEBUG_)
-	  std::cout << "COG_X = " << point_out.point.x << " y = " << point_out.point.y << " z = " << point_out.point.z << std::endl;
-	
-	target_pub_.publish<geometry_msgs::PointStamped>(point_out); 
-      }
+      trackFace(cv_ptr);
     }
   }
   
@@ -129,10 +171,15 @@ public:
   {
     face_cascade_name = "/usr/share/OpenCV-2.3.1/haarcascades/haarcascade_frontalface_alt.xml";
     
-    image_sub_ = nh_.subscribe (image_topic_, 2, &HeadTracking::image_cb, this);
-    depth_sub_ = nh_.subscribe (depth_topic_, 2, &HeadTracking::depth_cb, this);
+    image_sub_ = nh_.subscribe (image_topic_, 1, &HeadTracking::image_cb, this);
+    depth_sub_ = nh_.subscribe (depth_topic_, 1, &HeadTracking::depth_cb, this);
     
-    target_pub_ = nh_.advertise<geometry_msgs::PointStamped> ("target_point", 5);
+    target_pub_ = nh_.advertise<geometry_msgs::PointStamped> ("target_point", 1);
+    
+    pan_speed_client_ = nh_.serviceClient<dynamixel_controllers::SetSpeed>("/dynamixel_controller/head_pan_controller/set_speed");
+    tilt_speed_client_ = nh_.serviceClient<dynamixel_controllers::SetSpeed>("/dynamixel_controller/head_tilt_controller/set_speed");
+    SetPanSpeed(0.05);
+    SetTiltSpeed(0.05);
     
     // This is only for debugging purposes, so can be commented-out
     if (DEBUG_)
@@ -156,6 +203,10 @@ private:
   
   ros::Publisher image_pub_; //image message publisher
   ros::Publisher target_pub_;
+  
+  ros::ServiceClient pan_speed_client_;
+  ros::ServiceClient tilt_speed_client_;
+  dynamixel_controllers::SetSpeed speed_srv_;
   
   CascadeClassifier face_cascade;
   String face_cascade_name;
