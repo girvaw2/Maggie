@@ -127,6 +127,28 @@ public:
       std::cout << "Failed to set tilt speed: " << speed << std::endl;
     }
   }
+  
+  void scanForFace()
+  {
+    static bool directionRight = true;
+    
+    SetPanSpeed(0.5);
+    
+    geometry_msgs::PointStamped point_out;          
+    point_out.header.frame_id = "base_link"; 
+    point_out.point.x = 1;
+    point_out.point.z = 0;
+    
+    if (directionRight)
+      point_out.point.y = 1;
+    else
+      point_out.point.y = -1;    
+    
+    directionRight = !directionRight;
+    
+    target_pub_.publish<geometry_msgs::PointStamped>(point_out);
+    ::sleep(1);
+  }
 
   void
   image_cb (const sensor_msgs::Image& rgbImage)
@@ -150,6 +172,8 @@ public:
   void
   depth_cb (const sensor_msgs::Image& depthImage)
   {
+    static int lostFaceCount = 0;
+    
     cv_bridge::CvImagePtr cv_ptr;
     try
     {
@@ -164,6 +188,12 @@ public:
     if (faceCentre_ != (Point)0)
     {
       trackFace(cv_ptr);
+      lostFaceCount = 0;
+    }
+    else if  (++lostFaceCount > 10)
+    {
+      scanForFace();
+      lostFaceCount = 0;
     }
   }
   
