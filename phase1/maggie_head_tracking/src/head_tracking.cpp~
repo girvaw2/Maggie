@@ -30,7 +30,8 @@ class HeadTracking
 {
 public:
   
-  void detectFace( cv_bridge::CvImagePtr cv_ptr )
+  void 
+  detectFace( cv_bridge::CvImagePtr cv_ptr )
   {
     std::vector<Rect> faces;
     
@@ -50,7 +51,6 @@ public:
     
     for( uint i = 0; i < faces.size(); i++ )
     {
-      
       if (i == 0)
       {
 	/* 
@@ -69,43 +69,42 @@ public:
     faceCentre_ = (Point)0;
   }
   
-  void trackFace(cv_bridge::CvImagePtr cv_ptr)
+  void 
+  trackFace(cv_bridge::CvImagePtr cv_ptr)
   {
-    static Point lastFaceCentre = (Point)0;
-    
     float z = cv_ptr->image.at<float>(faceCentre_);
     if (isnan<float>(z) == false)
     {
-      if (lastFaceCentre != (Point)0)
-      {
-	float deltaX = abs(lastFaceCentre.x - faceCentre_.x);
-	float deltaY = abs(lastFaceCentre.y - faceCentre_.y);
-	
-	if (DEBUG_)
-	{
-	  std::cout << "deltaX = " << deltaX << " deltaY = " << deltaY << std::endl;
-	}
+      float x = z * FOV_WIDTH * (faceCentre_.x - cv_ptr->image.size().width / 2.0) / cv_ptr->image.size().width;
+      float y = (z * FOV_HEIGHT * (faceCentre_.y - cv_ptr->image.size().height / 2.0) / cv_ptr->image.size().height) + 0.12;
 
-	SetPanSpeed(min<float>(max<float>(deltaX / 100, 0.05), 1));
-	SetTiltSpeed(min<float>(max<float>(deltaY / 200, 0.01), 0.3));
-      }
-      
+      adjustSpeedForDisplacement(x, y);
+    
       /*
       * We've got everything we need, so publish the faceCentre 3d coordinate to the target frame
       */
-      geometry_msgs::PointStamped point_out;          
-      point_out.header.frame_id = "camera_depth_optical_frame"; 
-      point_out.point.x = z * FOV_WIDTH * (faceCentre_.x - cv_ptr->image.size().width / 2.0) / cv_ptr->image.size().width;
-      point_out.point.y = (z * FOV_HEIGHT * (faceCentre_.y - cv_ptr->image.size().height / 2.0) / cv_ptr->image.size().height) + 0.12;
-      point_out.point.z = cv_ptr->image.at<float>(faceCentre_);
-      
-      if (DEBUG_)
-	std::cout << "COG_X = " << point_out.point.x << " y = " << point_out.point.y << " z = " << point_out.point.z << std::endl;
-      
-      target_pub_.publish<geometry_msgs::PointStamped>(point_out); 
-      
-      memcpy(&lastFaceCentre, &faceCentre_, sizeof(Point)); 
+      setHeadPosition("camera_depth_optical_frame", x, y, cv_ptr->image.at<float>(faceCentre_));
+//       geometry_msgs::PointStamped point_out;          
+//       point_out.header.frame_id = "camera_depth_optical_frame"; 
+//       point_out.point.x = x; //z * FOV_WIDTH * (faceCentre_.x - cv_ptr->image.size().width / 2.0) / cv_ptr->image.size().width;
+//       point_out.point.y = y; //(z * FOV_HEIGHT * (faceCentre_.y - cv_ptr->image.size().height / 2.0) / cv_ptr->image.size().height) + 0.12;
+//       point_out.point.z = cv_ptr->image.at<float>(faceCentre_);
+//       
+//       if (DEBUG_)
+//       {
+// 	std::cout << "COG_X = " << point_out.point.x << std::endl;
+// 	std::cout << "COG_Y = " << point_out.point.y << std::endl;
+// 	std::cout << "COG_Z = " << point_out.point.z << std::endl;
+//       }
+//       target_pub_.publish<geometry_msgs::PointStamped>(point_out); 
     }
+  }
+  
+  void
+  adjustSpeedForDisplacement(float x, float y)
+  {
+    SetPanSpeed(min<float>(max<float>(abs(x) * 1.5, 0.05), 0.5));
+    SetTiltSpeed(min<float>(max<float>(abs(y) / 1.5, 0.01), 0.3));
   }
   
   void
@@ -131,30 +130,56 @@ public:
   void scanForFace()
   {
     static bool directionRight = true;
+
+    float x, y;
+    static float z = -0.5;
     
     SetPanSpeed(0.5);
     
-    geometry_msgs::PointStamped point_out;          
-    point_out.header.frame_id = "base_link"; 
-    point_out.point.x = 1;
-    point_out.point.z = 0;
+    //geometry_msgs::PointStamped point_out;          
+    //point_out.header.frame_id = "base_link"; 
+    x = 1;
     
     if (directionRight)
-      point_out.point.y = 1;
+    {
+      y = 2;
+      
+      // scan up and down in subsequent oscillations
+      z += 0.5;
+      if (z > 0.75)
+	z = -0.5;
+    }
     else
-      point_out.point.y = -1;    
+      y = -2;    
     
     directionRight = !directionRight;
     
-    target_pub_.publish<geometry_msgs::PointStamped>(point_out);
-    ::sleep(1);
+    setHeadPosition("base_link", x, y, z);
+    
+    //target_pub_.publish<geometry_msgs::PointStamped>(point_out);
+  }
+  
+  void
+  setHeadPosition(string frame, float x, float y, float z)
+  {
+      geometry_msgs::PointStamped point_out;          
+      point_out.header.frame_id = frame; //"camera_depth_optical_frame"; 
+      point_out.point.x = x; 
+      point_out.point.y = y; 
+      point_out.point.z = z; 
+      
+      if (DEBUG_)
+      {
+	std::cout << "COG_X = " << point_out.point.x << std::endl;
+	std::cout << "COG_Y = " << point_out.point.y << std::endl;
+	std::cout << "COG_Z = " << point_out.point.z << std::endl;
+      }
+      target_pub_.publish<geometry_msgs::PointStamped>(point_out); 
   }
 
   void
   image_cb (const sensor_msgs::Image& rgbImage)
   {
-    //std::cout << "image_cb" << std::endl;
-    
     cv_bridge::CvImagePtr cv_ptr;
     try
     {
@@ -173,6 +198,7 @@ public:
   depth_cb (const sensor_msgs::Image& depthImage)
   {
     static int lostFaceCount = 0;
+    static int maxFaceScans = 0;
     
     cv_bridge::CvImagePtr cv_ptr;
     try
@@ -189,11 +215,17 @@ public:
     {
       trackFace(cv_ptr);
       lostFaceCount = 0;
+      maxFaceScans = 0;
     }
-    else if  (++lostFaceCount > 10)
+    else if (maxFaceScans > 5)
+    {
+      setHeadPosition("base_link", 1000, 0, 0);
+    }
+    else if  (++lostFaceCount > 5)
     {
       scanForFace();
       lostFaceCount = 0;
+      maxFaceScans++;
     }
   }
   
