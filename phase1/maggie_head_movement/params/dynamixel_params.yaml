@@ -11,8 +11,8 @@ head_pan_controller:
     motor:
         id: 1
         init: 512
-        min: 0
-        max: 1023
+        min: 100
+        max: 1000
 
 head_tilt_controller:
     controller:

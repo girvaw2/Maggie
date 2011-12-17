@@ -6,6 +6,7 @@ CMakeFiles/head_tracking.dir/src/head_tracking.o: /opt/ros/electric/stacks/commo
 CMakeFiles/head_tracking.dir/src/head_tracking.o: /opt/ros/electric/stacks/common_msgs/geometry_msgs/msg_gen/cpp/include/geometry_msgs/PointStamped.h
 CMakeFiles/head_tracking.dir/src/head_tracking.o: /opt/ros/electric/stacks/common_msgs/sensor_msgs/include/sensor_msgs/image_encodings.h
 CMakeFiles/head_tracking.dir/src/head_tracking.o: /opt/ros/electric/stacks/common_msgs/sensor_msgs/msg_gen/cpp/include/sensor_msgs/Image.h
+CMakeFiles/head_tracking.dir/src/head_tracking.o: /opt/ros/electric/stacks/common_msgs/sensor_msgs/msg_gen/cpp/include/sensor_msgs/JointState.h
 CMakeFiles/head_tracking.dir/src/head_tracking.o: /opt/ros/electric/stacks/common_msgs/sensor_msgs/msg_gen/cpp/include/sensor_msgs/PointCloud2.h
 CMakeFiles/head_tracking.dir/src/head_tracking.o: /opt/ros/electric/stacks/common_msgs/sensor_msgs/msg_gen/cpp/include/sensor_msgs/PointField.h
 CMakeFiles/head_tracking.dir/src/head_tracking.o: /opt/ros/electric/stacks/common_msgs/sensor_msgs/msg_gen/cpp/include/sensor_msgs/RegionOfInterest.h
