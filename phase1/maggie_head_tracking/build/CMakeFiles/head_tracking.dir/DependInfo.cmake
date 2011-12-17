@@ -10,5 +10,4 @@ SET(CMAKE_CXX_COMPILER_ID "GNU")
 
 # Targets to which this target links.
 SET(CMAKE_TARGET_LINKED_INFO_FILES
-  "/home/billy/ros/Maggie/phase1/maggie_head_tracking/build/CMakeFiles/face_tracking.dir/DependInfo.cmake"
   )

@@ -3,7 +3,6 @@
 /home/billy/ros/Maggie/phase1/maggie_head_tracking/build/CMakeFiles/ROSBUILD_gensrv_cpp.dir
 /home/billy/ros/Maggie/phase1/maggie_head_tracking/build/CMakeFiles/ROSBUILD_gensrv_lisp.dir
 /home/billy/ros/Maggie/phase1/maggie_head_tracking/build/CMakeFiles/clean-test-results.dir
-/home/billy/ros/Maggie/phase1/maggie_head_tracking/build/CMakeFiles/face_tracking.dir
 /home/billy/ros/Maggie/phase1/maggie_head_tracking/build/CMakeFiles/head_tracking.dir
 /home/billy/ros/Maggie/phase1/maggie_head_tracking/build/CMakeFiles/rosbuild_precompile.dir
 /home/billy/ros/Maggie/phase1/maggie_head_tracking/build/CMakeFiles/rosbuild_premsgsrvgen.dir

@@ -29,6 +29,4 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 #rosbuild_add_executable(example examples/example.cpp)
 #target_link_libraries(example ${PROJECT_NAME})
 
-rosbuild_add_library(face_tracking src/face_tracking.cpp)
 rosbuild_add_executable (head_tracking src/head_tracking.cpp)
-target_link_libraries(head_tracking face_tracking)

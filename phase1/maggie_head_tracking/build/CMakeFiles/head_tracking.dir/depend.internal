@@ -3,6 +3,7 @@
 
 CMakeFiles/head_tracking.dir/src/head_tracking.o
  /home/billy/ros/Maggie/phase1/maggie_head_tracking/src/head_tracking.cpp
+ /home/billy/ros/Maggie/phase1/maggie_head_tracking/src/head_tracking.h
  /opt/ros/electric/stacks/common_msgs/geometry_msgs/msg_gen/cpp/include/geometry_msgs/Point.h
  /opt/ros/electric/stacks/common_msgs/geometry_msgs/msg_gen/cpp/include/geometry_msgs/PointStamped.h
  /opt/ros/electric/stacks/common_msgs/sensor_msgs/include/sensor_msgs/image_encodings.h

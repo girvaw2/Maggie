@@ -205,49 +205,13 @@ clean: CMakeFiles/clean-test-results.dir/clean
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/face_tracking.dir
-
-# All Build rule for target.
-CMakeFiles/face_tracking.dir/all: CMakeFiles/rosbuild_precompile.dir/all
-	$(MAKE) -f CMakeFiles/face_tracking.dir/build.make CMakeFiles/face_tracking.dir/depend
-	$(MAKE) -f CMakeFiles/face_tracking.dir/build.make CMakeFiles/face_tracking.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/billy/ros/Maggie/phase1/maggie_head_tracking/build/CMakeFiles  1
-	@echo "Built target face_tracking"
-.PHONY : CMakeFiles/face_tracking.dir/all
-
-# Include target in all.
-all: CMakeFiles/face_tracking.dir/all
-.PHONY : all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/face_tracking.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/billy/ros/Maggie/phase1/maggie_head_tracking/build/CMakeFiles 1
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/face_tracking.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/billy/ros/Maggie/phase1/maggie_head_tracking/build/CMakeFiles 0
-.PHONY : CMakeFiles/face_tracking.dir/rule
-
-# Convenience name for target.
-face_tracking: CMakeFiles/face_tracking.dir/rule
-.PHONY : face_tracking
-
-# clean rule for target.
-CMakeFiles/face_tracking.dir/clean:
-	$(MAKE) -f CMakeFiles/face_tracking.dir/build.make CMakeFiles/face_tracking.dir/clean
-.PHONY : CMakeFiles/face_tracking.dir/clean
-
-# clean rule for target.
-clean: CMakeFiles/face_tracking.dir/clean
-.PHONY : clean
-
-#=============================================================================
 # Target rules for target CMakeFiles/head_tracking.dir
 
 # All Build rule for target.
 CMakeFiles/head_tracking.dir/all: CMakeFiles/rosbuild_precompile.dir/all
-CMakeFiles/head_tracking.dir/all: CMakeFiles/face_tracking.dir/all
 	$(MAKE) -f CMakeFiles/head_tracking.dir/build.make CMakeFiles/head_tracking.dir/depend
 	$(MAKE) -f CMakeFiles/head_tracking.dir/build.make CMakeFiles/head_tracking.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/billy/ros/Maggie/phase1/maggie_head_tracking/build/CMakeFiles  2
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/billy/ros/Maggie/phase1/maggie_head_tracking/build/CMakeFiles  1
 	@echo "Built target head_tracking"
 .PHONY : CMakeFiles/head_tracking.dir/all
 
@@ -257,7 +221,7 @@ all: CMakeFiles/head_tracking.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/head_tracking.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/billy/ros/Maggie/phase1/maggie_head_tracking/build/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/billy/ros/Maggie/phase1/maggie_head_tracking/build/CMakeFiles 1
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/head_tracking.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/billy/ros/Maggie/phase1/maggie_head_tracking/build/CMakeFiles 0
 .PHONY : CMakeFiles/head_tracking.dir/rule

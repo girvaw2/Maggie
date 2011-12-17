@@ -71,6 +71,5 @@ private:
     vector<targetPosition> vTrajectory_;
     
     int gesture_;
- 
 };
 

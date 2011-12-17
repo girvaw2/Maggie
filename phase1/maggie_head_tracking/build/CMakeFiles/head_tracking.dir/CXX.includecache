@@ -7,6 +7,10 @@
 #IncludeRegexTransform: 
 
 /home/billy/ros/Maggie/phase1/maggie_head_tracking/src/head_tracking.cpp
+head_tracking.h
+/home/billy/ros/Maggie/phase1/maggie_head_tracking/src/head_tracking.h
+
+/home/billy/ros/Maggie/phase1/maggie_head_tracking/src/head_tracking.h
 ros/ros.h
 -
 ros/console.h

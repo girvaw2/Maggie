@@ -161,19 +161,6 @@ clean-test-results/fast:
 .PHONY : clean-test-results/fast
 
 #=============================================================================
-# Target rules for targets named face_tracking
-
-# Build rule for target.
-face_tracking: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 face_tracking
-.PHONY : face_tracking
-
-# fast build rule for target.
-face_tracking/fast:
-	$(MAKE) -f CMakeFiles/face_tracking.dir/build.make CMakeFiles/face_tracking.dir/build
-.PHONY : face_tracking/fast
-
-#=============================================================================
 # Target rules for targets named head_tracking
 
 # Build rule for target.
@@ -317,21 +304,6 @@ tests/fast:
 .PHONY : tests/fast
 
 # target to build an object file
-src/face_tracking.o:
-	$(MAKE) -f CMakeFiles/face_tracking.dir/build.make CMakeFiles/face_tracking.dir/src/face_tracking.o
-.PHONY : src/face_tracking.o
-
-# target to preprocess a source file
-src/face_tracking.i:
-	$(MAKE) -f CMakeFiles/face_tracking.dir/build.make CMakeFiles/face_tracking.dir/src/face_tracking.i
-.PHONY : src/face_tracking.i
-
-# target to generate assembly for a file
-src/face_tracking.s:
-	$(MAKE) -f CMakeFiles/face_tracking.dir/build.make CMakeFiles/face_tracking.dir/src/face_tracking.s
-.PHONY : src/face_tracking.s
-
-# target to build an object file
 src/head_tracking.o:
 	$(MAKE) -f CMakeFiles/head_tracking.dir/build.make CMakeFiles/head_tracking.dir/src/head_tracking.o
 .PHONY : src/head_tracking.o
@@ -358,7 +330,6 @@ help:
 	@echo "... ROSBUILD_gensrv_lisp"
 	@echo "... clean-test-results"
 	@echo "... edit_cache"
-	@echo "... face_tracking"
 	@echo "... head_tracking"
 	@echo "... rebuild_cache"
 	@echo "... rosbuild_precompile"
@@ -371,9 +342,6 @@ help:
 	@echo "... test-results"
 	@echo "... test-results-run"
 	@echo "... tests"
-	@echo "... src/face_tracking.o"
-	@echo "... src/face_tracking.i"
-	@echo "... src/face_tracking.s"
 	@echo "... src/head_tracking.o"
 	@echo "... src/head_tracking.i"
 	@echo "... src/head_tracking.s"
