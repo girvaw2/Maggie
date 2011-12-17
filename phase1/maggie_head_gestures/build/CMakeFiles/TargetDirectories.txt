@@ -1,0 +1,16 @@
+/home/billy/ros/Maggie/phase1/maggie_head_gestures/build/CMakeFiles/ROSBUILD_genmsg_cpp.dir
+/home/billy/ros/Maggie/phase1/maggie_head_gestures/build/CMakeFiles/ROSBUILD_genmsg_lisp.dir
+/home/billy/ros/Maggie/phase1/maggie_head_gestures/build/CMakeFiles/ROSBUILD_gensrv_cpp.dir
+/home/billy/ros/Maggie/phase1/maggie_head_gestures/build/CMakeFiles/ROSBUILD_gensrv_lisp.dir
+/home/billy/ros/Maggie/phase1/maggie_head_gestures/build/CMakeFiles/clean-test-results.dir
+/home/billy/ros/Maggie/phase1/maggie_head_gestures/build/CMakeFiles/head_gestures.dir
+/home/billy/ros/Maggie/phase1/maggie_head_gestures/build/CMakeFiles/rosbuild_precompile.dir
+/home/billy/ros/Maggie/phase1/maggie_head_gestures/build/CMakeFiles/rosbuild_premsgsrvgen.dir
+/home/billy/ros/Maggie/phase1/maggie_head_gestures/build/CMakeFiles/rospack_genmsg.dir
+/home/billy/ros/Maggie/phase1/maggie_head_gestures/build/CMakeFiles/rospack_genmsg_libexe.dir
+/home/billy/ros/Maggie/phase1/maggie_head_gestures/build/CMakeFiles/rospack_gensrv.dir
+/home/billy/ros/Maggie/phase1/maggie_head_gestures/build/CMakeFiles/test.dir
+/home/billy/ros/Maggie/phase1/maggie_head_gestures/build/CMakeFiles/test-future.dir
+/home/billy/ros/Maggie/phase1/maggie_head_gestures/build/CMakeFiles/test-results.dir
+/home/billy/ros/Maggie/phase1/maggie_head_gestures/build/CMakeFiles/test-results-run.dir
+/home/billy/ros/Maggie/phase1/maggie_head_gestures/build/CMakeFiles/tests.dir

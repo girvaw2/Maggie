@@ -1,0 +1,20 @@
+<package>
+  <description brief="maggie_head_gestures">
+
+     maggie_head_gestures
+
+  </description>
+  <author>Billy</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/maggie_head_gestures</url>
+  <depend package="tf"/>
+  <depend package="roscpp"/>
+  <depend package="sensor_msgs"/>
+  <depend package="std_msgs"/>
+  <depend package="dynamixel_msgs"/>
+  <depend package="dynamixel_controllers"/>
+
+</package>
+
+
