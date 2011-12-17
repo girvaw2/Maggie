@@ -57,11 +57,10 @@ private:
   
 private:
     ros::NodeHandle nh_;
-    ros::Publisher pub_;
     ros::Publisher target_pub_;
+    ros::Publisher head_tracking_pub_;
     ros::Subscriber gesture_sub_;
     ros::Subscriber joint_state_sub_;
-    ros::Timer testTimer_;
     
     dynamixel_controllers::SetSpeed speed_srv_;
     ros::ServiceClient pan_speed_client_;

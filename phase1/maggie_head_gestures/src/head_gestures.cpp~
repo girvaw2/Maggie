@@ -2,19 +2,15 @@
 
 HeadGestures::HeadGestures () 
 {
-  pub_ = nh_.advertise<std_msgs::String>("topic_name", 5);
-  testTimer_ = nh_.createTimer(ros::Duration(1), &HeadGestures::testTimerCallback, this);
-  testTimer_.stop(); // off by default.
-  
   gesture_sub_ = nh_.subscribe("gesture", 1000, &HeadGestures::gestureCallback, this);
   joint_state_sub_ = nh_.subscribe ("joint_states", 1, &HeadGestures::jointCallback, this);
   
   target_pub_ = nh_.advertise<geometry_msgs::PointStamped> ("target_point", 1);
+  head_tracking_pub_ = nh_.advertise<std_msgs::String> ("head_tracking", 1);
   
   pan_speed_client_ = nh_.serviceClient<dynamixel_controllers::SetSpeed>("/dynamixel_controller/head_pan_controller/set_speed");
   tilt_speed_client_ = nh_.serviceClient<dynamixel_controllers::SetSpeed>("/dynamixel_controller/head_tilt_controller/set_speed");
   dynamixel_controllers::SetSpeed speed_srv_;
-
 }
 
 void 
@@ -22,6 +18,7 @@ HeadGestures::startShake()
 {
     setHeadPanSpeed(1);
     gesture_ = SHAKE;
+    vTrajectory_.clear();
     
     targetPosition target;
     target.direction = PAN_RIGHT;
@@ -81,8 +78,7 @@ HeadGestures::startNod()
 {
     setTiltSpeed(0.5);
     gesture_ = NOD;
-    
-    std::cout << "NOD" << std::endl;
+    vTrajectory_.clear();
     
     targetPosition target;
     target.direction = TILT_UP;
@@ -112,7 +108,7 @@ HeadGestures::processNod()
       
       if (currTiltAngle_ < (tp.angle - ANGLE_ERROR_MARGIN))
       {
-	setHeadPosition("base_link", 10 * cos(tp.angle), 0, 10 * sin(tp.angle));
+	setHeadPosition("base_link", 10 * cos(tp.angle), 10 * sin(currPanAngle_), 10 * sin(tp.angle));
       }
       else
       {
@@ -127,7 +123,7 @@ HeadGestures::processNod()
       
       if (currTiltAngle_ > tp.angle + ANGLE_ERROR_MARGIN)
       {
-	setHeadPosition("base_link", 10 * cos(tp.angle), 0, 10 * sin(tp.angle));
+	setHeadPosition("base_link", 10 * cos(tp.angle), 10 * sin(currPanAngle_), 10 * sin(tp.angle));
       }
       else
       {
@@ -178,11 +174,22 @@ HeadGestures::gestureCallback(const std_msgs::String::ConstPtr& msg)
   {
     startShake();
   }
-  else
-  if (str == "nod")
+  else if (str == "nod")
   {
     startNod();
   }
+  else if (str == "start_tracking")
+  {
+    std_msgs::String msg;
+    msg.data = "start";
+    head_tracking_pub_.publish<std_msgs::String>(msg); 
+  }
+  else if (str == "stop_tracking")
+  {
+    std_msgs::String msg;
+    msg.data = "stop";
+    head_tracking_pub_.publish<std_msgs::String>(msg); 
+  }    
 }
  
 void
@@ -197,23 +204,6 @@ HeadGestures::jointCallback (const sensor_msgs::JointState& state)
   if (gesture_ == NOD)
     processNod();
 }
- 
-void 
-HeadGestures::testTimerCallback(const ros::TimerEvent& event)
-{
-  //DoTest();
-} 
- 
-void 
-HeadGestures::DoTest()
-{
-  std_msgs::String str;
-  str.data = "hello world";
-  pub_.publish(str);
-  
-  std::cout << "Hello world" << std::endl;
-}
-
 
 int
 main (int argc, char **argv)
